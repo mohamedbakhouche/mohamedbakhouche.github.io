@@ -24,10 +24,10 @@
 				2eme<input  class="raduis-btn" type="radio" name="radio" >
 				<span class="circle" id="tow-btn" alt="alt-btn"></span><br>
 
-				1er-<input  class="raduis-btn" type="radio" name="radio" >
+				1er&nbsp<input  class="raduis-btn" type="radio" name="radio" >
 				<span class="circle" id="one-btn" alt="alt-btn"></span><br>
 
-				RDC-<input  class="raduis-btn" type="radio" name="radio" >
+				RDC&nbsp<input  class="raduis-btn" type="radio" name="radio" >
 				<span class="circle" id="rdc-btn" alt="alt-btn"></span><br>
 				<span class="circle-line"></span>
 				
@@ -46,6 +46,10 @@
 								<img class="menu-img1" src="icon/leman1.jpg" alt="">
 							</ul>
 						</div>
+			</div>
+			<div class="sun-slider">
+				<input type="range" value="0" min="0" max="100" class="sun-range" id="sun-slid">
+
 			</div>
 			
 		</div>
@@ -75,6 +79,7 @@
 			var container, controls;
 			var camera, scene, renderer, light;
 			var mesh;
+			var dirLight
 
 			var mouse = new THREE.Vector2(), INTERSECTED;
 			var raycaster = new THREE.Raycaster();
@@ -98,6 +103,7 @@
 
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 200 );
 				camera.position.set( -50.0, 20.0, 30.0 );
+				
 
 				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true,} );
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -113,6 +119,7 @@
 				controls.target.set( 0, -0.0, -0.0 );
 				controls.minDistance = 30;
 				controls.maxDistance = 100;
+				console.log(controls);
 
 				controls.maxPolarAngle = Math.PI / 2;
 				// controls.update();
@@ -149,7 +156,7 @@
 					// var hemiLightHelper = new THREE.HemisphereLightHelper( hemiLight, 10 );
 					// scene.add( hemiLightHelper );
 					//
-					var dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
+					dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
 					dirLight.color.setHSL( 0.1, 1, 0.95 );
 					dirLight.position.set( -60, 40, 26 );
 					// dirLight.position.multiplyScalar( 30 );
@@ -167,92 +174,101 @@
 					var dirLightHeper = new THREE.DirectionalLightHelper( dirLight, 10 );
 					// scene.add( dirLightHeper );
 
+					
+					
+					// $('#sun-slid').change( function(){
+					// 	var val = $('#sun-slid').val();
+					// 	console.log(val);
+					// 	dirLight.position.set( -val -20, 40, val );
+					// }); 
+
 					scene.traverse( function ( node ) 
 					{
 						if ( node.isMesh ) {
 							node.castShadow = true;
 							console.log(node);
 							node.receiveShadow = true;
-					 		if ( node.material ){
+
+					 		if ( node.material )
+							 {
 					 			node.material.envMap = envMap;
 					 			node.material.needsUpdate = true;
-
-								var RDC = scene.getObjectByName("RDC");
-								console.log(RDC);
 								
-								var oneEr = scene.getObjectByName("1er");
-								var towEme = scene.getObjectByName("2eme");
-								var threEme = scene.getObjectByName("3eme");
-								var toit = scene.getObjectByName("toit");
-								
-								// console.log(RDC.material);
-
-								$('#rdc-btn').click( function(){
-								var rdc = $(this).attr('alt');
-								if(rdc){
-									oneEr.visible = false;
-									towEme.visible = false;
-									threEme.visible = false;
-									toit.visible = false;
-									// var roughnessMap = mat.roughnessMap.image;
-									// var roughness = mat.roughnessMap;
-									// switch(RDC.visible){
-									// 	case false:
-									// 	RDC.visible = true; break;
-									// 	case true:
-									// 	RDC.visible = false; break;
-									// }
-									}
-								});
-								$('#one-btn').click( function(){
-								var ONE = $(this).attr('alt');
-								if(ONE){
-									towEme.visible = false;
-									threEme.visible = false;
-									toit.visible = false;
-
-									RDC.visible = true;
-									oneEr.visible = true;
-									}
-								});
-								$('#tow-btn').click( function(){
-								var TOW = $(this).attr('alt');
-								if(TOW){
-									threEme.visible = false;
-									toit.visible = false;
-
-									RDC.visible = true;
-									oneEr.visible = true;
-									towEme.visible = true;
-									}
-								});
-								$('#three-btn').click( function(){
-								var THREE = $(this).attr('alt');
-								if(THREE){
-									RDC.visible = true;
-									oneEr.visible = true;
-									towEme.visible = true;
-									threEme.visible = true;
-									toit.visible = false;
-									}
-								});
-								$('#roof-btn').click( function(){
-								var THREE = $(this).attr('alt');
-								if(THREE){
-									RDC.visible = true;
-									oneEr.visible = true;
-									towEme.visible = true;
-									threEme.visible = true;
-									toit.visible = true;
-									}
-								}); 
-
 					 		} 
-						};
+						}
 					});
+
+					var RDC = scene.getObjectByName("RDC");
+					var oneEr = scene.getObjectByName("1er");
+					var towEme = scene.getObjectByName("2eme");
+					var threEme = scene.getObjectByName("3eme");
+					var toit = scene.getObjectByName("toit");
+					
+					// console.log(RDC.material);
+
+					$('#rdc-btn').click( function(){
+					var rdc = $(this).attr('alt');
+					if(rdc){
+						oneEr.visible = false;
+						towEme.visible = false;
+						threEme.visible = false;
+						toit.visible = false;
+						// var roughnessMap = mat.roughnessMap.image;
+						// var roughness = mat.roughnessMap;
+						// switch(RDC.visible){
+						// 	case false:
+						// 	RDC.visible = true; break;
+						// 	case true:
+						// 	RDC.visible = false; break;
+						// }
+						}
+					});
+					$('#one-btn').click( function(){
+					var ONE = $(this).attr('alt');
+					if(ONE){
+						towEme.visible = false;
+						threEme.visible = false;
+						toit.visible = false;
+
+						RDC.visible = true;
+						oneEr.visible = true;
+						}
+					});
+					$('#tow-btn').click( function(){
+					var TOW = $(this).attr('alt');
+					if(TOW){
+						threEme.visible = false;
+						toit.visible = false;
+
+						RDC.visible = true;
+						oneEr.visible = true;
+						towEme.visible = true;
+						}
+					});
+					$('#three-btn').click( function(){
+					var THREE = $(this).attr('alt');
+					if(THREE){
+						RDC.visible = true;
+						oneEr.visible = true;
+						towEme.visible = true;
+						threEme.visible = true;
+						toit.visible = false;
+						}
+					});
+					$('#roof-btn').click( function(){
+					var THREE = $(this).attr('alt');
+					if(THREE){
+						RDC.visible = true;
+						oneEr.visible = true;
+						towEme.visible = true;
+						threEme.visible = true;
+						toit.visible = true;
+						}
+					}); 
 
 				} );
 
+				
 				
 
 				container.appendChild( renderer.domElement );
@@ -288,12 +304,19 @@
 			function render(){
 				
 				renderer.render( scene, camera );
+				
 			}
 
 			animate();
 		
 			function animate() {
+				var changeSun = document.getElementById('sun-slid');
+					changeSun.addEventListener('input', function(){
+						dirLight.position.set( -60 , 40, this.value );
+						
+					},false);
 				requestAnimationFrame( animate );
+				
 				render();
 			}
 		</script>
