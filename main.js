@@ -12,24 +12,25 @@ var h = window.innerHeight;
 var container, controls;
 var camera, scene, renderer, mixer, envMap, light, dirLight;
 var mesh, url;
+var composer ,renderPass;
 
 var mouse = new THREE.Vector2(), INTERSECTED;
 var raycaster = new THREE.Raycaster();
 
-var scenes = {
-    model: {
-        name: 'model',
-        url: 'model/test2.gltf',
-        author: 'mohamed',
-        authorURL: 'https://mohamedbakhouche.githup.io',
-    },
-    modelTow: {
-        name: 'modelTow',
-        url: 'model/test3.gltf',
-        author: 'mohamed',
-        authorURL: 'https://mohamedbakhouche.githup.io',
-    }
-};
+// var scenes = {
+//     model: {
+//         name: 'model',
+//         url: 'model/test2.gltf',
+//         author: 'mohamed',
+//         authorURL: 'https://mohamedbakhouche.githup.io',
+//     },
+//     modelTow: {
+//         name: 'modelTow',
+//         url: 'model/test3.gltf',
+//         author: 'mohamed',
+//         authorURL: 'https://mohamedbakhouche.githup.io',
+//     }
+// };
 
 // var apprAnfo = document.getElementsByClassName('appr-info');
 var apprAnfo = document.querySelector('.appr-info');
@@ -43,16 +44,12 @@ var apprfill = document.querySelector('.fillscreen');
 url = 'model/test2.gltf';
 function onload() {
     
-    
     window.addEventListener( 'resize', onWindowResize, false );
-    // guiChange();
     initScene( url );
     animate();
 }
 
 function initScene( sceneInfo ) {
-
-    
 
     container = document.getElementById( 'view3d' );
 
@@ -64,6 +61,7 @@ function initScene( sceneInfo ) {
 
     ////////////////// RENDERER /////////////////////
     renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true,} );
+    renderer.toneMapping = THREE.LinearToneMapping;
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.gammaOutput = true;
@@ -128,11 +126,73 @@ function initScene( sceneInfo ) {
     
     container.addEventListener( "mousemove", onMouseOut, false );
     container.addEventListener( "click", onMouseClick, false );
+
     scene.add( object );
+    
+    postproce();
 
     onWindowResize();
 });
 }; 
+
+/////////////////////////////////////////////////////////////////////////
+/////////                 postprocessing            //////////////////////
+///////////////////////////////////////////////////////////////////////
+
+function postproce(){
+    
+    // postprocessing
+    composer = new THREE.EffectComposer( renderer );
+    renderPass = new THREE.RenderPass( scene, camera );
+
+    var effectFXAA = new THREE.ShaderPass( THREE.FXAAShader );
+    effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
+    
+    var bloomPass = new THREE.UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 0.2, 0.2, 0.98, 512 ); //1.0, 9, 0.5, 512);
+
+    var ColorCorrection = new THREE.ShaderPass( THREE.ColorCorrectionShader );
+    ColorCorrection.uniforms[ 'powRGB' ].value = new THREE.Vector3( 1.2, 1.2, 1.2 ) ;
+    ColorCorrection.uniforms[ 'mulRGB' ].value = new THREE.Vector3( 0.9, 0.9, 0.9) ;
+    // ColorCorrection.uniforms[ 'addRGB' ].value = new THREE.Vector3(0.8, 0.8, 0.8 ) ;
+
+    var BrightnessContrast = new THREE.ShaderPass( THREE.BrightnessContrastShader );
+    BrightnessContrast.uniforms[ 'brightness' ].value = 0.08 ;
+    BrightnessContrast.uniforms[ 'contrast' ].value = 0.05; 
+
+    var HueSaturation = new THREE.ShaderPass( THREE.HueSaturationShader );
+    HueSaturation.uniforms[ 'hue' ].value = 0 ;
+    HueSaturation.uniforms[ 'saturation' ].value = -0.2 ;
+
+    // var bokehPass = new THREE.BokehPass( scene, camera, {
+    //     focus: 	    100,
+    //     aperture:	0.01,
+    //     maxblur:	9,
+    //     nearClip:   0.5 ,
+	// 	farClip:   100.0 ,
+
+    //     width: w,
+    //     height: h
+    // } );
+
+    var Vignette = new THREE.ShaderPass( THREE.VignetteShader );
+    Vignette.uniforms[ 'offset' ].value = 0.8 ;
+    Vignette.uniforms[ 'darkness' ].value = 0.8 ;
+    
+    
+    
+
+    composer.addPass( renderPass );
+    composer.addPass( ColorCorrection );
+    composer.addPass( BrightnessContrast );
+    composer.addPass( HueSaturation );
+    composer.addPass( effectFXAA );
+    // composer.addPass( bloomPass );
+    // composer.addPass( bokehPass );
+    composer.addPass( Vignette );
+    Vignette .renderToScreen = true;
+
+}
+
 
 ////////////////// models //////////////////////
 function model(object){
@@ -246,7 +306,6 @@ function DLigth(){
         },false);
 }
 
-
 function getEnvMap() {
     var path = 'Bridge2/';
     var format = '.jpg';
@@ -264,6 +323,7 @@ function onWindowResize() {
     camera.aspect = container.offsetWidth / container.offsetHeight;
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
+    composer.setSize( window.innerWidth, window.innerHeight );
 }
 /////////////////////////////////////////////////////////////////////////
 /////////                 onMouseOut             //////////////////////
@@ -310,7 +370,6 @@ function onMouseClick( event ) {
         console.log(apprAnfo);
         apprAnfo.classList.add('isactive');
         apprfill.classList.add('isactive');
-        
     } 
 }
 
@@ -322,24 +381,26 @@ var closeBtn = document.getElementById('close-icon');
         },false);
 
 
+function mrender() {
+    composer.render();
+
+    // renderer.render( scene, camera );
+}
+
 function animate() {
     requestAnimationFrame( animate );
+    mrender();
     controls.update();
-    render();
 }
 
-function render(){
-    renderer.render( scene, camera );
-}
+// function reload() {
+//     if ( container && renderer ) {
+//         container.removeChild( renderer.domElement );
+//     }
+//     if ( loader && mixer ) mixer.stopAllAction();
 
-function reload() {
-    if ( container && renderer ) {
-        container.removeChild( renderer.domElement );
-    }
-    if ( loader && mixer ) mixer.stopAllAction();
-
-    initScene( url );
-}
+//     initScene( url );
+// }
 
 onload();
 
