@@ -1,162 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Elégance Yvelines (ThreeJs</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link rel="stylesheet" href="style.css">
-		<script>
-			function taggleClass(el){
-				var element = document.getElementById('arr-circle').children;
-				for (var i = 0; i < element.length; i++) {
-					element[i].className = "circle";
-				}
-				el.className = "circleColor";
-			}
-			
-		</script>
-	</head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>app</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
 
-	<body>
-		
-		<div id="view">
+    <div class="container-menu">
+        <div class="top-menu-logo">
+                <img src="icon/habiteo-logo.svg" alt="">
 
-			<div id="view3d"></div>
+        </div>
+        <div class="top-menu-rigth">
+                <p>ABITER</p>
+                <p>INVESTIR</p>
+                <p>FINANCER</p>
+                <p>S'INFORMER</p>
+                <p>PROMOTEURS</p>
 
-			<div id="btn-info">
-				<img class="btn-info" src="icon/info.png" alt="">
-			</div>
-			<div id="btn-full-screen">
-				<img id="img-full-screen" class="btn-full-screen" src="icon/fullScreen.png" alt="" onclick="openFullscreen()">
-			</div>
-			<div id="btn-go-down">
-				<img class="btn-go-down" src="icon/goDown.png" alt="">
-			</div>
-			<div id="btn-boussole">
-				<img class="btn-boussole" src="icon/boussole.png" alt="">
-			</div>
-			
-			<form id="leves">
-				<div id="arr-circle">
-					toit&nbsp<span class="circleColor" id="roof-btn" alt="alt-btn" onclick="taggleClass(this)"></span><br>
-					3eme&nbsp<span class="circle" id="three-btn" alt="alt-btn" onclick="taggleClass(this)"></span><br>
-					2eme&nbsp<span class="circle" id="tow-btn" alt="alt-btn" onclick="taggleClass(this)"></span><br>
-					1er&nbsp&nbsp<span class="circle" id="one-btn" alt="alt-btn" onclick="taggleClass(this)"></span><br>
-					RDC&nbsp&nbsp<span class="circle" id="rdc-btn" alt="alt-btn" onclick="taggleClass(this)"></span><br>
-				</div>
-				<span class="circle-line"></span>
-			</form>
-			
-			<div id="side-menu" >
-					<div id="menu-icon">
-						<span></span>
-						<span></span>
-						<span></span>
-					</div>
-						<div class="scroll" id="sidebar">
-							<h3>Images</h3>
-							<ul>
-								<img class="menu-img1" src="icon/perspective-du-programme-elegance-situe-a-maurepas.jpg" alt="">
-								<img class="menu-img1" src="icon/perspective-d-un-sejour-du-programme-elegance-situe-a-maurepas.jpg" alt="">
-								<img class="menu-img1" src="icon/le-donjon-de-maurepas.jpg" alt="">
-								<img class="menu-img1" src="icon/la-mairie-de-maurepas.jpg" alt="">
-								<img class="menu-img1" src="icon/l-eglise-saint-sauveur-de-maurepas.jpg" alt="">
-								<img class="menu-img1" src="icon/la-mediatheque-le-phare-de-maurepas.jpg" alt="">
-								<img class="menu-img1" src="icon/plan-3d-d-un-appartement-3-pieces-du-programme-elegance-situe-a-maurepas.jpg" alt="">
-								<img class="menu-img1" src="icon/plan-3d-d-un-appartement-4-pieces-du-programme-elegance-situe-a-maurepas.jpg" alt="">
-								
-							</ul>
-						</div>
-			</div>
-			<div class="sun-slider">
-				<img class="img-sun" src="icon/sun.png" alt="">
-				<input type="range" value="0" min="0" max="100" class="sun-range" id="sun-slid">
-				<img class="img-moon" src="icon/moon.png" alt="">
-			</div>
-			<div class="appr-info">
-				
-					<div class="fillscreen">
-						<div id="close-icon" class="close">
-							<span class="par-1"></span>
-							<span class="par-2"></span>
-						</div>
-						<div class="in-block">
-							<div class="inf">
-								<div class="dispo">
-									<p>DISPONIBLE</p>
-									<p></p> class="visite">VISITEZ EN 3D</p>
-								</div>
-								<div>
-									<p>ELÉGANCE › LOT N°A 204</p>
-									<h3>Appartement 2 pièces</h2>
-									<h2>155 000</h2>
-								</div>
-								<div>
-										<p>SURFACE HABITABLE</p>
-										<p>42,66 m²</p>
-										<p>SURFACE ANNEXE</p>
-										<p>84,72 m²</p>
-								</div>
-								<div>
-										<p>ORIENTATION</p>
-										<p>NORD-OUEST</p>
-								</div>
-
-							</div>
-							<div class="submenu">
-									<img class="image-submenu" src="icon/A204.png" alt="">
-							</div>
-								
-								
-						</div>
-
-						
-					</div>
-			</div>
-			
-			
-		</div>
-		
-
-		<script
- 		src="https://code.jquery.com/jquery-3.3.1.min.js"
-  		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-		crossorigin="anonymous"></script>
-		  
-		<script src="build/three.min.js"></script>
-		<script src="build/EffectComposer.js"></script>
-		<script src="build/RenderPass.js"></script>
-		<script src="build/ShaderPass.js"></script>
-		<script src="build/OrbitControls.js"></script>
-		<script src="build/GLTFLoader.js"></script>
-
-		
-		
-		<script src="build/MaskPass.js"></script>
-		
-		<script src="build/CopyShader.js"></script>
-		<script src="build/FXAAShader.js"></script>
-		<script src="build/ConvolutionShader.js"></script>
-		<script src="build/LuminosityHighPassShader.js"></script>
-		<script src="build/UnrealBloomPass.js"></script>
-		<script src="build/BokehPass.js"></script>
-		<script src="build/SAOPass.js"></script>
-
-		<script src="build/DotScreenShader.js"></script>
-		<script src="build/RGBShiftShader.js"></script>
-		<script src="build/VignetteShader.js"></script>
-		<script src="build/BleachBypassShader.js"></script>
-		<script src="build/BokehShader2.js"></script>
-		<script src="build/BokehShader.js"></script>
-		<script src="build/DOFMipMapShader.js"></script>
-		<script src="build/ColorCorrectionShader.js"></script>
-		<script src="build/BrightnessContrastShader.js"></script>
-		<script src="build/HueSaturationShader.js"></script>
-		<script src="build/SAOShader.js"></script>
-
-		
-		<script src="main.js"></script>
-				
-		
-	</body>
+        </div>
+    </div>
+    <iframe src="view.html" frameborder="0" ></iframe>
+    
+    
+</body>
 </html>
