@@ -6,6 +6,34 @@ $(document).ready(function()
             });
     });
 
+var elem = document.documentElement;
+
+/* View in fullscreen */
+function openFullscreen() {
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen();
+    }
+    }
+
+    /* Close fullscreen */
+    function closeFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) { /* Firefox */
+        document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE/Edge */
+        document.msExitFullscreen();
+    }
+}
+
 
 var w = window.innerWidth;
 var h = window.innerHeight;
@@ -120,6 +148,15 @@ function initScene( sceneInfo ) {
         rdcChildren[0].material.visible = false;
         rdcChildren[1].material.visible = false;
 
+        var Wallrdc = object.getObjectByName("rdc_in_wall");
+        Wallrdc.visible = false;
+        var Wallone = object.getObjectByName("1er_in_wall");
+        Wallone.visible = false;
+        var WallTow = object.getObjectByName("2eme_in_wall");
+        WallTow.visible = false;
+
+        
+
         model(object);
 
     // window.addEventListener( 'resize', onWindowResize, true );
@@ -148,10 +185,10 @@ function postproce(){
     var effectFXAA = new THREE.ShaderPass( THREE.FXAAShader );
     effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
     
-    var bloomPass = new THREE.UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 0.2, 0.2, 0.98, 512 ); //1.0, 9, 0.5, 512);
+    var bloomPass = new THREE.UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 0.2, 0.2, 0.98, 1024 ); //1.0, 9, 0.5, 512);
 
     var ColorCorrection = new THREE.ShaderPass( THREE.ColorCorrectionShader );
-    ColorCorrection.uniforms[ 'powRGB' ].value = new THREE.Vector3( 1.2, 1.2, 1.2 ) ;
+    ColorCorrection.uniforms[ 'powRGB' ].value = new THREE.Vector3( 1.4, 1.3, 1.3 ) ;
     ColorCorrection.uniforms[ 'mulRGB' ].value = new THREE.Vector3( 0.9, 0.9, 0.9) ;
     // ColorCorrection.uniforms[ 'addRGB' ].value = new THREE.Vector3(0.8, 0.8, 0.8 ) ;
 
@@ -184,9 +221,9 @@ function postproce(){
     composer.addPass( renderPass );
     composer.addPass( ColorCorrection );
     composer.addPass( BrightnessContrast );
-    composer.addPass( HueSaturation );
+    // composer.addPass( HueSaturation );
     composer.addPass( effectFXAA );
-    // composer.addPass( bloomPass );
+    composer.addPass( bloomPass );
     // composer.addPass( bokehPass );
     composer.addPass( Vignette );
     Vignette .renderToScreen = true;
@@ -201,6 +238,7 @@ function model(object){
     var towEme = object.getObjectByName("2eme");
     var threEme = object.getObjectByName("3eme");
     var toit = object.getObjectByName("toit");
+
     var inWallRdc = object.getObjectByName("rdc_in_wall");
     var inWallOne = object.getObjectByName("1er_in_wall");
     var inWallTow = object.getObjectByName("2eme_in_wall");
@@ -212,9 +250,11 @@ function model(object){
         towEme.visible = false;
         threEme.visible = false;
         toit.visible = false;
+
         inWallOne.visible = false;
         inWallTow.visible = false;
         inWallRdc.visible = true;
+
         }
     });
     $('#one-btn').click( function(){
@@ -240,6 +280,7 @@ function model(object){
         RDC.visible = true;
         oneEr.visible = true;
         towEme.visible = true;
+        
         inWallTow.visible = true;
         }
     });
@@ -251,6 +292,10 @@ function model(object){
         towEme.visible = true;
         threEme.visible = true;
         toit.visible = false;
+
+        inWallOne.visible = false;
+        inWallTow.visible = false;
+        inWallRdc.visible = true;
         }
     });
     $('#roof-btn').click( function(){
@@ -261,6 +306,10 @@ function model(object){
         towEme.visible = true;
         threEme.visible = true;
         toit.visible = true;
+
+        inWallOne.visible = false;
+        inWallTow.visible = false;
+        inWallRdc.visible = false;
         }
     }); 
 }

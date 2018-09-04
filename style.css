@@ -1,3 +1,6 @@
+:root{
+    --tm-green-color: rgb(80, 174, 85);
+}
 body {
     font-family: Monospace;
     background-color: #fff;
@@ -7,6 +10,7 @@ body {
     overflow: hidden;
 }
 
+
 #view3d {
     position: fixed;
     width: 100%;
@@ -14,12 +18,42 @@ body {
     z-index: -2;
     display: block;
 }
-#view {
-    /* position: absolute; */
+/* #view {
+    position: absolute; */
     /* width: 100%;
     height: 100%; */
     /* z-index: 1; */
-    /* display: block; */
+    /* display: block;
+} */
+
+.btn-info{
+    position: absolute;
+    width: 32px;
+    top: 60px;
+    right: 25px;
+    cursor: pointer;
+}
+.btn-full-screen{
+    position: absolute;
+    width: 32px;
+    bottom: 25px;
+    right: 25px;
+    cursor: pointer;
+}
+
+.btn-go-down{
+    position: absolute;
+    width: 64px;
+    bottom: 10%;
+    right: 50%;
+    cursor: pointer;
+}
+.btn-boussole{
+    position: absolute;
+    width: 64px;
+    top: 60px;
+    right: 50%;
+    cursor: pointer;
 }
 
 .fillscreen{
@@ -33,7 +67,7 @@ body {
     height: 60%;
     transform: translate(-50%, -50%);
     z-index: -500;
-    border-bottom: 3px solid coral;
+    border-bottom: 3px solid var(--tm-green-color) ;
     box-shadow: -13px 13px 60px 10px rgba(0, 0, 0, 0.4); 
 } 
 
@@ -83,7 +117,7 @@ body {
     /* transform: translate(50%, 50%); */
     
     /* float: right; */
-    background-color:coral;
+    background-color:var(--tm-green-color);
     /* padding-right: 7px; */
     /* overflow: initial; */
     
@@ -111,6 +145,11 @@ body {
     display: block;
     /* margin-bottom: 10px; */
 }
+
+.visite{
+    border: 3px solid var(--tm-green-color) ; 
+}
+
 .submenu{
     height: 100%;
     width: 100%;
@@ -165,9 +204,11 @@ body {
     width: 10px;
     background-color:#2c3e50;
 }
+
 .scroll::-webkit-scrollbar-thumb{
+    
     border-radius: 10px;
-    background-color:#566a80;
+    background-color:var(--tm-green-color);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
 }
 
@@ -193,6 +234,7 @@ ul{
     background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
     z-index: 5;
+    margin-top: 60px;
 }
 #menu-icon span{
     left: 200px;
@@ -202,7 +244,7 @@ ul{
     margin-bottom: 4px;
 }
 
-#btn{
+/* #btn{
     position: absolute;
     right: 0;
     padding-right: 20px;
@@ -211,7 +253,7 @@ ul{
     z-index: 40;
     cursor: pointer;
    
-} 
+}  */
 #leves{
     user-select: none;
     position: absolute;
@@ -246,7 +288,7 @@ ul{
     left: 0px;
     right: 0px;
     position: relative;
-    background-color: coral;
+    background-color: var(--tm-green-color);
     border-radius: 50%;
     z-index: 40;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
@@ -276,11 +318,6 @@ ul{
 .circle:hover{
     background-color: #566a80;
 } 
-/* 
-#leves input:checked .circle{
-    background-color: coral;
-    z-index: 50;
-} */
 
 .sun-slider{
     position: absolute;
@@ -296,7 +333,7 @@ ul{
 }
 .sun-range::-webkit-slider-thumb{
     -webkit-appearance: none;
-    background: tomato;
+    background: var(--tm-green-color);
     width: 25px;
     height: 25px;
     border-radius: 50%;
@@ -314,8 +351,6 @@ ul{
 .img-sun , .img-moon{
     width: 32px;
 }
-
-
 
 
 /* ipad */
@@ -368,15 +403,43 @@ ul{
 /* iphon x */
 /* (orientation: landscape) */
 @media  (max-width: 415px), (max-height: 450px) { 
+  
+    .btn-info{
+        width: 16px;
+        top: 16px;
+        right: 16px;
+    }
+    .btn-full-screen{
+        width: 16px;
+        bottom: 16px;
+        right: 16px;
+    }
+    
+    .btn-go-down{
 
+        width: 32px;
+        bottom: 10%;
+        right: 50%;
+    }
+    .btn-boussole{
+        width: 32px;
+        top: 13px;
+        right: 50%;
+    }
     #leves{
-        right: 30px;
-        bottom: 80px;
+        right: 15px;
+        bottom: 55px;
     }
 
     .circle{
         width: 18px;
         height: 18px;
+        margin-top: 30px;
+    }
+    .circleColor{
+        width: 18px;
+        height: 18px;
+        background-color: var(--tm-green-color);
         margin-top: 30px;
     }
     .circle-line{
@@ -404,14 +467,114 @@ ul{
     }
 
     .menu-img1{
-        width: 90px;
+        width: 80px;
+        padding: 5px;
     }
     .sun-slider{
         bottom: 15px;
-        right: 80px;
+        right: 55px;
     }
     .sun-range{
         width: 140px;
+    }
+    .sun-range::-webkit-slider-thumb{
+        width: 18px;
+        height: 18px;
+        margin-top: -10px; 
+    }
+    .sun-range::-webkit-slider-runnable-track{
+        height: 2px;
+        border-radius: 5px;
+    }
+    .img-sun, .img-moon{
+        width: 18px;
+    }
+    
+}
+
+@media only screen and (max-height: 450px) { 
+    .sun-range{
+        width: 360px;
+    }
+}
+
+/* iphon 5S */
+/* (orientation: landscape) */
+@media  (max-width: 321px), (max-height: 320px) { 
+
+    .btn-info{
+        width: 16px;
+        top: 16px;
+        right: 16px;
+    }
+    .btn-full-screen{
+        width: 16px;
+        bottom: 16px;
+        right: 16px;
+    }
+    
+    .btn-go-down{
+
+        width: 32px;
+        bottom: 10%;
+        right: 50%;
+    }
+    .btn-boussole{
+        width: 32px;
+        top: 13px;
+        right: 50%;
+    }
+
+    #leves{
+        right: 15px;
+        bottom: 55px;
+    }
+
+    .circle{
+        width: 18px;
+        height: 18px;
+        margin-top: 26px;
+    }
+    .circleColor{
+        width: 18px;
+        height: 18px;
+        background-color: var(--tm-green-color);
+        margin-top: 26px;
+    }
+    .circle-line{
+        width: 2px;
+        height: 170px;
+        left: 48px;
+        top: 44px;
+    }
+    
+    #side-menu{
+        left: -100px; 
+    }
+    #menu-icon{
+        left: 100px;
+        padding: 7px 7px;
+        width: 20px;
+        height: 15px;
+    }
+
+    #side-menu.visible{
+        left: 0px;
+    }
+    .scroll{
+        width: 100px;
+    }
+
+    .menu-img1{
+        width: 80px;
+        padding: 5px;
+    }
+    .sun-slider{
+        bottom: 15px;
+        right: 55px;
+    }
+    .sun-range{
+        width: 100px;
     }
     .sun-range::-webkit-slider-thumb{
         width: 18px;
